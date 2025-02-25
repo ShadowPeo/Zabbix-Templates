@@ -1,0 +1,310 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 3dcd5bbe90534f9e8eb5c2d53756af63
+      name: Templates/Power
+  templates:
+    - uuid: fba7f0f5f40a4b9aa419030b1ab775ca
+      template: 'Cyberpower - Environment Sensor'
+      name: 'Cyberpower - Environment Sensor'
+      description: |
+        Template for monitoring CyberPower Environmental Sensors via SNMP.
+        
+        MIBs used:
+         - CyberPower-MIB
+      groups:
+        - name: Templates/Power
+      items:
+        - uuid: 91b43948fbd94094848f76e8b7e1d024
+          name: 'Contacts - SNMP Walk'
+          type: SNMP_AGENT
+          snmp_oid: 'walk[1.3.6.1.4.1.3808.1.1.4.4.2.1.1,1.3.6.1.4.1.3808.1.1.4.4.2.1.2,1.3.6.1.4.1.3808.1.1.4.4.2.1.3,1.3.6.1.4.1.3808.1.1.4.4.2.1.4]'
+          key: environment.contact_sensor.walk
+          delay: 1h
+          value_type: TEXT
+          trends: '0'
+        - uuid: b6e5d2a1c4f943d7890e1c2b3a4d5f33
+          name: Humidity
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.3.1.0
+          key: environment.humidity
+          units: '%'
+        - uuid: c6a5d2a1c4f943d7890e1c2b3a4d5f64
+          name: 'Humidity High Threshold'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.3.2.0
+          key: environment.humidity.high_threshold
+          delay: 1h
+          units: '%'
+        - uuid: c6aad2a1c4f943d7890e1c2b3a4d5f64
+          name: 'Humidity Low Threshold'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.3.3.0
+          key: environment.humidity.low_threshold
+          delay: 1h
+          units: '%'
+        - uuid: 621be50bbe93424e8e784b9125730583
+          name: 'Environment Sensor Location'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.1.2.0
+          key: environment.sensor.location
+          delay: 1h
+          value_type: TEXT
+          trends: '0'
+        - uuid: 621be50bbe93424e8e784b9125730582
+          name: 'Environment Sensor Name'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.1.1.0
+          key: environment.sensor.name
+          delay: 1h
+          history: '0'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: TRIM
+              parameters:
+                - ' '
+        - uuid: c7a4e92b3d6c4b88b1f5d7e9c0a3e2f1
+          name: 'Temperature (Celsius)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.6.0
+          key: environment.temperature.celsius
+          value_type: FLOAT
+          units: °C
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.1'
+        - uuid: c4c103e407e847a88531fb4b83fdb0ed
+          name: 'Temperature High Threshold (Celsius)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.7.0
+          key: environment.temperature.celsius.high_threshold
+          delay: 1h
+          value_type: FLOAT
+          units: °C
+          description: |
+            The high temperature threshold of the environment sensor.
+            
+            The value expressed in Celsius.
+        - uuid: 10d290a53a0d4d10ad2723a207497046
+          name: 'Temperature Hysteresis (Celsius)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.10.0
+          key: environment.temperature.celsius.hysteresis
+          delay: 5m
+          units: °C
+          description: |
+            The number of degrees beyond the temperature thresholds at which an active temperature alarm will be cleared.
+            
+            This configuration setting applies to all temperature thresholds.
+            
+            Units are displayed in Celsius.
+        - uuid: 786f1b85d7734670825d949d087f1f8e
+          name: 'Temperature Low Threshold (Celsius)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.8.0
+          key: environment.temperature.celsius.low_threshold
+          delay: 1h
+          value_type: FLOAT
+          units: °C
+          description: |
+            The low temperature threshold of the environment sensor.
+            
+            The value expressed in Celsius.
+        - uuid: e88fda0fe8914efd9e94676d7f1d6db6
+          name: 'Temperature Rate of Change (Celsius)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.9.0
+          key: environment.temperature.celsius.rate_of_change
+          delay: 5m
+          units: °C
+          description: |
+            The rate of change of the temperature.
+            
+            The value expressed in Celsius per 5 minute.
+        - uuid: d9b5f73565d94a0c9f43c8c9e2f9b8a1
+          name: 'Temperature (Fahrenheit)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.1.0
+          key: environment.temperature.fahrenheit
+          value_type: FLOAT
+          status: DISABLED
+          units: °F
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.1'
+        - uuid: b6e5d2a1c4f943d7890e1c2b3a4d5f6e
+          name: 'Temperature High Threshold (Fahrenheit)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.2.0
+          key: environment.temperature.fahrenheit.high_threshold
+          delay: 1h
+          value_type: FLOAT
+          status: DISABLED
+          units: °F
+          description: |
+            The high temperature threshold of the environment sensor.
+            
+            The value expressed in Fahrenheit.
+        - uuid: 7bc0c4c3848c4d97bd8edb7ad786c4ba
+          name: 'Temperature Hysteresis (Fahrenheit)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.5.0
+          key: environment.temperature.fahrenheit.hysteresis
+          delay: 5m
+          status: DISABLED
+          units: °F
+          description: |
+            The number of degrees beyond the temperature thresholds at which an active temperature alarm will be cleared.
+            
+            This configuration setting applies to all temperature thresholds.
+            
+            Units are displayed in Fahrenheit.
+        - uuid: b6e5d2a1c4f943d7890e1c2b3a4d5f64
+          name: 'Temperature Low Threshold (Fahrenheit)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.3.0
+          key: environment.temperature.fahrenheit.low_threshold
+          delay: 1h
+          value_type: FLOAT
+          status: DISABLED
+          units: °F
+          description: |
+            The low temperature threshold of the environment sensor.
+            
+            The value expressed in Fahrenheit.
+        - uuid: 4c6f6c0ae41f429785511231afec7b3a
+          name: 'Temperature Rate of Change (Fahrenheit)'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.3808.1.1.4.2.4.0
+          key: environment.temperature.fahrenheit.rate_of_change
+          delay: 5m
+          status: DISABLED
+          units: °F
+          description: |
+            The rate of change of the temperature.
+            
+            The value expressed in Fahrenheit per 5 minute.
+      discovery_rules:
+        - uuid: f349da882d1f4e9e95812b26f19e8a17
+          name: 'Contact Sensor Discovery'
+          type: DEPENDENT
+          key: environment.contact_sensor.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: e317cd7f17904fafb853afeec83a2fab
+              name: '{#CONTACTNAME} Normal Status'
+              type: DEPENDENT
+              key: 'environment.contact.normal_status.[{#SNMPINDEX}]'
+              delay: '0'
+              trends: '0'
+              valuemap:
+                name: 'Contact Sensor State'
+              preprocessing:
+                - type: SNMP_WALK_VALUE
+                  parameters:
+                    - '.1.3.6.1.4.1.3808.1.1.4.4.2.1.4.{#SNMPINDEX}'
+                    - '0'
+              master_item:
+                key: environment.contact_sensor.walk
+            - uuid: 76671c6917104ffab23793ac4d3d0767
+              name: '{#CONTACTNAME} Status'
+              type: DEPENDENT
+              key: 'environment.contact.status.[{#SNMPINDEX}]'
+              delay: '0'
+              trends: '0'
+              valuemap:
+                name: 'Contact Sensor State'
+              preprocessing:
+                - type: SNMP_WALK_VALUE
+                  parameters:
+                    - '.1.3.6.1.4.1.3808.1.1.4.4.2.1.3.{#SNMPINDEX}'
+                    - '0'
+              master_item:
+                key: environment.contact_sensor.walk
+          trigger_prototypes:
+            - uuid: 473a09e554a04d86b95c52b9045fd065
+              expression: 'avg(/Cyberpower - Environment Sensor/environment.contact.status.[{#SNMPINDEX}],#3)<>last(/Cyberpower - Environment Sensor/environment.contact.normal_status.[{#SNMPINDEX}])'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.contact.status.[{#SNMPINDEX}],#3)=last(/Cyberpower - Environment Sensor/environment.contact.normal_status.[{#SNMPINDEX}])'
+              name: '{#CONTACTNAME} Abnormal Status'
+              priority: HIGH
+          master_item:
+            key: environment.contact_sensor.walk
+          preprocessing:
+            - type: SNMP_WALK_TO_JSON
+              parameters:
+                - '{#CONTACTINDEX}'
+                - 1.3.6.1.4.1.3808.1.1.4.4.2.1.1
+                - '0'
+                - '{#CONTACTNAME}'
+                - 1.3.6.1.4.1.3808.1.1.4.4.2.1.2
+                - '0'
+                - '{#CONTACTSTATUS}'
+                - 1.3.6.1.4.1.3808.1.1.4.4.2.1.3
+                - '0'
+                - '{#CONTACTNORMALSTATE}'
+                - 1.3.6.1.4.1.3808.1.1.4.4.2.1.4
+                - '0'
+      valuemaps:
+        - uuid: 98d23b2f4e1647aaa09fc30871aec293
+          name: 'Contact Sensor State'
+          mappings:
+            - value: '0'
+              newvalue: Open
+            - value: '1'
+              newvalue: Closed
+        - uuid: 4ef99589ab67487d990df8307d4c04b9
+          name: 'Contact Sensor Type'
+          mappings:
+            - value: '1'
+              newvalue: 'Normal Open'
+            - value: '2'
+              newvalue: 'Normal Close'
+  triggers:
+    - uuid: 22e428589f154b638effbc9ca94a0249
+      expression: 'avg(/Cyberpower - Environment Sensor/environment.humidity,#3)>=last(/Cyberpower - Environment Sensor/environment.humidity.high_threshold)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.humidity,#3)<=last(/Cyberpower - Environment Sensor/environment.humidity.high_threshold)'
+      name: 'Humidity ({ITEM.VALUE}), Above Threshold'
+      priority: HIGH
+      description: 'Uses the High Threshold (H) and compares it to the average of the last three humidity readings to see if the humidity is above or equal to this threshold'
+    - uuid: 6b6b74532ad34599a4e3ce381deacb40
+      expression: 'avg(/Cyberpower - Environment Sensor/environment.humidity,#3)<=last(/Cyberpower - Environment Sensor/environment.humidity.low_threshold)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.humidity,#3)>=last(/Cyberpower - Environment Sensor/environment.humidity.low_threshold)'
+      name: 'Humidity ({ITEM.VALUE}), Below Threshold'
+      priority: HIGH
+      description: 'Uses the Low Threshold (H) and compares it to the average of the last three humidity readings to see if the humidity is below or equal to this threshold'
+    - uuid: e3a3a5a54e224695b2fac304f0f69df9
+      expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.celsius,#3)>=last(/Cyberpower - Environment Sensor/environment.temperature.celsius.high_threshold)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.celsius,#3)<=last(/Cyberpower - Environment Sensor/environment.temperature.celsius.high_threshold)'
+      name: 'Temperature ({ITEM.VALUE}), Above Threshold (Celsius)'
+      priority: HIGH
+      description: 'Uses the High Threshold (F) and compares it to the average of the last three temperature readings to see if the temperature is above or equal to this threshold'
+    - uuid: 4f8510fc60444008852c9ca5d8d91022
+      expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit,#3)>=last(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit.high_threshold)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit,#3)<=last(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit.high_threshold)'
+      name: 'Temperature ({ITEM.VALUE}), Above Threshold (Fahrenheit)'
+      status: DISABLED
+      priority: HIGH
+      description: 'Uses the High Threshold (F) and compares it to the average of the last three temperature readings to see if the temperature is above or equal to this threshold'
+    - uuid: 32698c213d2b4bec9b5dd74819255d60
+      expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.celsius,#3)<=last(/Cyberpower - Environment Sensor/environment.temperature.celsius.low_threshold)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.celsius,#3)>=last(/Cyberpower - Environment Sensor/environment.temperature.celsius.low_threshold)'
+      name: 'Temperature ({ITEM.VALUE}), Below Threshold (Celsius)'
+      priority: HIGH
+      description: 'Uses the Low Threshold (C) and compares it to the average of the last three temperature readings to see if the temperature is below or equal to this threshold'
+    - uuid: 39a2df31484f430bb56dc0aafc6d1705
+      expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit,#3)<=last(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit.low_threshold)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'avg(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit,#3)>=last(/Cyberpower - Environment Sensor/environment.temperature.fahrenheit.low_threshold)'
+      name: 'Temperature ({ITEM.VALUE}), Below Threshold (Fahrenheit)'
+      status: DISABLED
+      priority: HIGH
+      description: 'Uses the Low Threshold (F) and compares it to the average of the last three temperature readings to see if the temperature is below or equal to this threshold'
